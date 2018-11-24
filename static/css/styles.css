@@ -1,0 +1,64 @@
+body, html {
+    padding: 0;
+    min-height: 100vh;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    min-width: 48px;
+    min-height: 48px;
+}
+
+footer,.navbar {
+    background-color: firebrick;
+    color: wheat;
+}
+
+footer {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+    text-align: center;
+}
+
+footer a, footer a:hover, footer a:visited {
+    color: wheat;
+    text-decoration: underline;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+}
+
+.navbar p {
+    color: wheat;
+}
+
+.btn-outline-info {
+    border-color: wheat;
+    color: wheat;
+}
+
+.btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
+    border-color: wheat;
+    background-color: wheat;
+    color: firebrick;
+}
+
+.navbar-brand img {
+    width: 48px;
+    height: 48px;
+}
+
+.navbar-brand p {
+    display: inline-block;
+}
