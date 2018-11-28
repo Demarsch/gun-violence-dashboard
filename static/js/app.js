@@ -1,5 +1,1 @@
-function init() {
-  
-}
-
-init();
+widgetRegistry = [];

@@ -62,3 +62,22 @@ footer a, footer a:hover, footer a:visited {
 .navbar-brand p {
     display: inline-block;
 }
+
+.grid-stack {
+    margin: 0.5rem 0;
+}
+
+.grid-stack-item {
+    padding: 0.5rem;    
+}
+
+.grid-stack-item-content {
+    border: 1px solid firebrick;
+}
+
+.grid-stack-item-content h2 {
+    font-size: 1rem;
+    color: wheat;
+    background-color: firebrick;
+    padding: 0.25rem;
+}
