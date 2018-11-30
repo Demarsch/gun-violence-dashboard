@@ -19,7 +19,7 @@ footer,.navbar {
 }
 
 footer {
-    padding: 0.5rem;
+    padding: 0.25rem;
     font-size: 0.9rem;
     margin-top: auto;
 }
@@ -37,6 +37,10 @@ footer a, footer a:hover, footer a:visited {
 .icon {
     width: 24px;
     height: 24px;
+}
+
+.navbar {
+    padding: 0.25rem 0.5rem;
 }
 
 .navbar p {
@@ -68,7 +72,7 @@ footer a, footer a:hover, footer a:visited {
 }
 
 .grid-stack-item {
-    padding: 0.5rem;    
+    padding: 0.25rem;    
 }
 
 .grid-stack-item-content {
