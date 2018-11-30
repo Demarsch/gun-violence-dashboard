@@ -8,11 +8,6 @@ body {
     flex-direction: column;
 }
 
-img {
-    min-width: 48px;
-    min-height: 48px;
-}
-
 footer,.navbar {
     background-color: firebrick;
     color: wheat;
@@ -52,7 +47,7 @@ footer a, footer a:hover, footer a:visited {
     color: wheat;
 }
 
-.btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
+ .btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
     border-color: wheat;
     background-color: wheat;
     color: firebrick;
@@ -79,9 +74,51 @@ footer a, footer a:hover, footer a:visited {
     border: 1px solid firebrick;
 }
 
-.grid-stack-item-content h2 {
-    font-size: 1rem;
-    color: wheat;
+.widget-header {
     background-color: firebrick;
     padding: 0.25rem;
+    position: relative;
+}
+
+.widget-header h2 {
+    font-size: 1rem;
+    color: wheat;
+    padding: 0;
+    margin: 0;
+}
+
+.widget-header a {
+    display: none;
+    position: absolute;
+    top: 0rem;
+    width: 1rem;
+    height: 1rem;
+}
+
+.widget-header:hover a {
+    display: block;
+    opacity: 0.7;
+}
+
+.widget-header:hover a:hover {
+    opacity: 1;
+}
+
+.st-widget-btn {    
+    right: 2rem;
+}
+
+.rm-widget-btn {
+    right: 0.4rem;
+}
+
+.widget-header img {
+    max-width: 100%;
+    max-height: 100%;
+    stroke: wheat;
+}
+
+.modal-backdrop
+{
+    opacity:0.5 !important;
 }

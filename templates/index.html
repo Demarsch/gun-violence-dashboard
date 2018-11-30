@@ -22,12 +22,12 @@
       <img src="{{ url_for('static', filename='img/gun.svg') }}" alt="Gun Logo"></img>
       <p>US Gun Violence Uncovered</p>
     </a>
-    <button class="btn btn-outline-info ml-auto">New Dashboard</button>
-    <button class="btn btn-outline-info ml-3">Add Widget</button>
+    <button id="newDashboard" class="btn btn-outline-info ml-auto">New Dashboard</button>
+    <button id="addWidget" class="btn btn-outline-info ml-3">Add Widget</button>
   </nav>
   <section class="grid-stack">
   </section>
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
+  <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
