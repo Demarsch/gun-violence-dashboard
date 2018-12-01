@@ -14,7 +14,7 @@ An interactive dashboard that contains visualization of different statistics rel
 
 ## Datasets
 
-The main dataset for all the gun violence incidents will be scraped from [gunviolencearchive.org](gunviolencearchive.org) (partially scraped version exists [here](https://www.kaggle.com/jameslko/gun-violence-data)). Some less important datasets e.g. population or income will be taken from other open sources
+The main dataset for all the gun violence incidents will be scraped from [gunviolencearchive.org](https://gunviolencearchive.org) (partially scraped version exists [here](https://www.kaggle.com/jameslko/gun-violence-data)). Some less important datasets e.g. population or income will be taken from other open sources
 
 ## Technologies
 
