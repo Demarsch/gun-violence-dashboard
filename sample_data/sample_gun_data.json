@@ -1,0 +1,61 @@
+{
+    "dataLayout": "3-axis",
+    "yAxis": "Number of Incidents",
+    "xAxis": "Population",
+    "zAxis": "Number of Guns Owned",
+    "data" : [
+        {
+            "state": "AL",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": 10000,
+                    "yValue": 70000,
+                    "zValue": 1000
+                },                
+                {
+                    "year": 2018,
+                    "xValue": 11000,
+                    "yValue": 75000,
+                    "zValue": 1100
+                }
+            ]
+        },        
+        {
+            "state": "AK",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": 15000,
+                    "yValue": 60000,
+                    "zValue": 2000
+                },                
+                {
+                    "year": 2018,
+                    "xValue": 19000,
+                    "yValue": 62000,
+                    "zValue": 2200
+                }
+            ]
+
+        },        
+        {
+            "state": "AZ",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": 7500,
+                    "yValue": 55000,
+                    "zValue": 100
+                },                
+                {
+                    "year": 2018,
+                    "xValue": 7000,
+                    "yValue": 53000,
+                    "zValue": 105
+                }
+            ]
+
+        }
+    ]
+}

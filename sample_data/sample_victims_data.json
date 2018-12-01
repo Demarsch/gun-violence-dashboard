@@ -1,0 +1,54 @@
+{
+    "dataLayout": "2-axis multi",
+    "yAxis": "Number of Incidents",
+    "xAxis": "Gender of Victims",
+    "data" : [
+        {
+            "state": "AL",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [38000, 38000]
+                },                
+                {
+                    "year": 2018,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [38000, 37000]
+                }
+            ]
+
+        },        
+        {
+            "state": "AK",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [40000, 20000]
+                },                
+                {
+                    "year": 2018,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [42000, 20000]
+                }
+            ]
+
+        },        
+        {
+            "state": "AZ",
+            "data": [
+                {
+                    "year": 2017,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [30000, 25000]
+                },                
+                {
+                    "year": 2018,
+                    "xValue": ["Male", "Female"],
+                    "yValue": [20000, 33000]
+                }
+            ]
+        }
+    ]
+}
