@@ -29,6 +29,22 @@ footer a, footer a:hover, footer a:visited {
     text-decoration: underline;
 }
 
+.foreground-light {
+    color: wheat;
+}
+
+.foreground-dark {
+    color: firebrick;
+}
+
+.background-light {
+    background-color: wheat;
+}
+
+.background-dark {
+    background-color: firebrick;
+}
+
 .icon {
     width: 24px;
     height: 24px;
@@ -38,16 +54,12 @@ footer a, footer a:hover, footer a:visited {
     padding: 0.25rem 0.5rem;
 }
 
-.navbar p {
-    color: wheat;
-}
-
 .btn-outline-info {
     border-color: wheat;
     color: wheat;
 }
 
- .btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
+.btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
     border-color: wheat;
     background-color: wheat;
     color: firebrick;
@@ -121,4 +133,62 @@ footer a, footer a:hover, footer a:visited {
 .modal-backdrop
 {
     opacity:0.5 !important;
+}
+
+.btn-lightbg {
+  width: 100%;
+  margin: 0 0.25rem;
+  border: 1px solid firebrick;
+  color: firebrick;
+  background-color: white;
+  transition: background-color 0.3s;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-lightbg:hover {
+  border-color: maroon;
+  color: maroon;
+  background-color: rgb(204, 184, 147);
+}
+
+.btn-lightbg.active {
+  background-color: wheat;
+}
+
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+  border: 1px solid firebrick;
+  border-top-width: 0;
+  max-height: 10rem;
+  overflow-y: auto;
+  width: 100%
+}
+
+.dropdown-menu .btn-lightbg {
+    margin: 0;
+    border-width: 0 0 1px 0;
+}
+
+.dropdown-item.active {
+    color: firebrick;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 0;
+}
+
+.modal-header {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0;
+    background-color: firebrick;
+    color: wheat;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 600px;
+        margin: 1.75rem auto;
+    }
 }
