@@ -155,11 +155,11 @@ footer a, footer a:hover, footer a:visited {
 .btn-check:hover {
   border-color: maroon;
   color: maroon;
-  background-color: rgb(204, 184, 147);
+  background-color: wheat;
 }
 
 .btn-check.active {
-  background-color: wheat;
+  background-color: rgb(204, 184, 147);
 }
 
 .dropdown-menu {

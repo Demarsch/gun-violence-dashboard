@@ -57,7 +57,7 @@ function fillStatistics(childModal) {
 $('.modal div[data-group] button:not(.inactive)')
     .click(e => {
         let self = $(e.target);
-        let isActive = self.hasClass('active');
+        let wasActive = self.hasClass('active');
         let parent = self.parents('div[data-group]');
         let dataGroup = parent.attr('data-group');
         let keepChecked = parent.is('[data-keepchecked]');
@@ -65,7 +65,10 @@ $('.modal div[data-group] button:not(.inactive)')
         if (!multiselect) {
             self.parents(`.modal-body`).find(`div[data-group="${dataGroup}"] button`).toggleClass('active', false);
         }
-        self.toggleClass('active', keepChecked || !isActive);
+        self.toggleClass('active', !wasActive);
+        if (parent.find('.active[data-value]').length == 0 && keepChecked) {
+            self.toggleClass('active', true);
+        }
     });
 
 //Do not close categories drop-down menus when category is selected
@@ -97,6 +100,7 @@ incidentsBreakdownModal.find('.modal-confirm').click(() => {
     //Get inclusive and exclusive categories
     widgetSettings.includeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
     widgetSettings.excludeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+    incidentsBreakdownModal.modal('hide');
     createWidget(widgetSettings);
 });
 
@@ -114,6 +118,9 @@ incidentsCorrelationModal.find('.modal-confirm').click(() => {
     //Get inclusive and exclusive categories
     widgetSettings.includeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
     widgetSettings.excludeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+    incidentsCorrelationModal.modal('hide');
+    createWidget(widgetSettings);
+
 });
 
 $('#addWidgetBtn').click(() => {

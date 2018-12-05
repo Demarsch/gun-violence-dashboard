@@ -5,6 +5,11 @@ $('#addWidget').click(() => {
 });
 
 function createWidget(widgetSettings, x, y, width, height, title) {
+    console.log(widgetSettings ? widgetSettings : 'No widget settings provided for the widget');
+    //TODO: don't add widget yet
+    if (!width) {
+        return;
+    }
     let widget = $(document.createElement('div'))
         .addClass('grid-stack-item')
         .attr('data-gs-x', x)
@@ -22,7 +27,6 @@ function createWidget(widgetSettings, x, y, width, height, title) {
         `);
     widget.find('.rm-widget-btn').click(() => widget.remove());
     $('.grid-stack').append(widget);
-    console.log(widgetSettings ? widgetSettings : 'No widget settings provided for the widget');
 }
 
 createWidget(null, 0, 0, 7, 5, 'Cool Map');
