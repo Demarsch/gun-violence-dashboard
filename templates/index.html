@@ -6,25 +6,287 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Gun Violence Dashboard</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js"></script>  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.jQueryUI.min.js'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
   <nav class="navbar">
-    <a href="/" class="navbar-brand">
+    <a href="/" class="navbar-brand background-dark">
       <img src="{{ url_for('static', filename='img/gun.svg') }}" alt="Gun Logo"></img>
-      <p>US Gun Violence Uncovered</p>
+      <p class="foreground-light">US Gun Violence Uncovered</p>
     </a>
-    <button class="btn btn-outline-info ml-auto">New Dashboard</button>
-    <button class="btn btn-outline-info ml-3">Add Widget</button>
+    <button id="addWidgetBtn" class="btn btn-outline-info ml-3">Add Widget</button>
   </nav>
-  <section>Placeholder</section>
+  <section class="grid-stack">
+  </section> 
+  
+  <div class="modal" id="addWidgetModal" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Widget</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="foreground-light" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body container foreground-dark">
+          <div class="row">
+            <div class="col-12">
+              <button class="btn btn-outline-info w-100" data-value="breakdown">View Incidents Breakdown</button>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-outline-info w-100 mt-3" data-value="correlation">View Incidents Correlation</button>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal" data-value="breakdown" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Incidents Breakdown</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="foreground-light" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body container foreground-dark">
+          <div class="row" data-group="yAxis" data-keepchecked>   
+              <div class="col-12">
+                <p class="text-center mb-2">What do you want to break down?</p>
+              </div>         
+            <div class="col-4">
+              <button class="btn-check active" data-value="incidents"># Incidents</button>
+            </div>
+            <div class="col-4">
+              <button class="btn-check" data-value="killed"># Killed</button>
+            </div>
+            <div class="col-4">
+              <button class="btn-check" data-value="injured"># Injured</button>
+            </div>
+          </div>
+          <div class="row" data-group="pivotBy" data-multiselect data-keepchecked>
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to break it down?</p>
+            </div>
+            <div class="col-3">
+              <button class="btn-check active" data-value="state">State</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="year">Year</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="yearMonth">Year+Month</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="victimAge">Victim Age</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="victimGender">Victim Gender</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="suspectAge">Suspect Age</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="suspectGender">Suspect Gender</button>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to filter it?</p>
+            </div>
+            <div class="col-3">
+              Belongs to:
+            </div>
+            <div class="col-9">
+                <div class="dropdown">
+                  <button class="btn-check dropdown-toggle" type="button" id="breakdownIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    - Select Categories -
+                  </button>
+                  <div class="dropdown-menu" data-type="categories" data-value="inclusiveCategories" aria-labelledby="breakdownIncCatDdButton">
+                  </div>
+                </div>
+            </div>
+            <div class="col-3">
+              Doesn't belong to:
+            </div>
+            <div class="col-9">
+                <div class="dropdown">
+                  <button class="btn-check dropdown-toggle" type="button" id="breakdownExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    - Select Categories -
+                  </button>
+                  <div class="dropdown-menu" data-type="categories" data-value="exclusiveCategories" aria-labelledby="breakdownExcCatDdButton">
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="row" data-group="chartType" data-keepchecked>
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to display it?</p>
+            </div>
+            <div class="col-3">
+              <button class="btn-check active" data-value="pie">Pie Chart</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="map">Map</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="hist">Histogram</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="bar">Bar Chart</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-info modal-confirm">Add</button>
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal" data-value="correlation" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Incidents Correlation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="foreground-light" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body container foreground-dark">
+          <div class="row" data-group="yAxis" data-keepchecked>   
+              <div class="col-12">
+                <p class="text-center mb-2">What do you correlate?</p>
+              </div>         
+            <div class="col-4">
+              <button class="btn-check active" data-value="incidents"># Incidents</button>
+            </div>
+            <div class="col-4">
+              <button class="btn-check" data-value="killed"># Killed</button>
+            </div>
+            <div class="col-4">
+              <button class="btn-check" data-value="injured"># Injured</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to filter it?</p>
+            </div>
+            <div class="col-3">
+              Belongs to:
+            </div>
+            <div class="col-9">
+                <div class="dropdown">
+                  <button class="btn-check dropdown-toggle" type="button" id="correlationIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    - Select Categories -
+                  </button>
+                  <div class="dropdown-menu" data-type="categories" data-value="inclusiveCategories" aria-labelledby="correlationIncCatDdButton">
+                  </div>
+                </div>
+            </div>
+            <div class="col-3">
+              Doesn't belong to:
+            </div>
+            <div class="col-9">
+                <div class="dropdown">
+                  <button class="btn-check dropdown-toggle" type="button" id="correlationExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    - Select Categories -
+                  </button>
+                  <div class="dropdown-menu" data-type="categories" data-value="exclusiveCategories" aria-labelledby="correlationExcCatDdButton">
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                <p class="text-center my-2">What do you want to correlate it with?</p>
+              </div>           
+              <div class="col-12" data-group="xAxis">
+                  <div class="dropdown">
+                    <button class="btn-check dropdown-toggle inactive" type="button" id="correlationXStatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      - Select Statistics -
+                    </button>
+                    <div class="dropdown-menu" data-type="statistics" data-keepchecked aria-labelledby="correlationXStatDdButton">
+                    </div>
+                  </div>
+              </div>          
+              <div class="col-12" data-group="zAxis">
+                  <div class="dropdown">
+                    <button class="btn-check dropdown-toggle inactive" type="button" id="correlationZStatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      - Select Statistics -
+                    </button>
+                    <div class="dropdown-menu" data-type="statistics" aria-labelledby="correlationZStatDdButton">
+                    </div>
+                  </div>
+              </div>
+          </div> 
+          <div class="row" data-group="pivotBy" data-multiselect data-keepchecked>
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to break it down?</p>
+            </div>
+            <div class="col-3">
+              <button class="btn-check active" data-value="state">State</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="year">Year</button>
+            </div>
+          </div> 
+          <div class="row" data-group="chartType" data-keepchecked>
+            <div class="col-12">
+              <p class="text-center my-2">How do you want to display it?</p>
+            </div>
+            <div class="col-3">
+              <button class="btn-check active" data-value="pie">Pie Chart</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="bubble">Bubble Chart</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="map">Map</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="hist">Histogram</button>
+            </div>
+            <div class="col-3">
+              <button class="btn-check" data-value="bar">Bar Chart</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-info modal-confirm">Add</button>
+          <button type="button" class="btn btn-outline-info" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
   <footer>
-    <p>2018 Andrei Chaplygin, Edgar Sanchez, Craig Taylor. Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a><a href="https://github.com/Demarsch/gun-violence-dashboard" target="_blank" aria-label="GitHub" class="pl-3"><svg class="icon" viewBox="0 0 512 499.36" focusable="false"><title>GitHub</title><path d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" fill="currentColor" fill-rule="evenodd"></path></svg>
+    <p>2018 Andrei Chaplygin, Edgar Sanchez, Craig Taylor, Nathan Roberts. Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a><a href="https://github.com/Demarsch/gun-violence-dashboard" target="_blank" aria-label="GitHub" class="pl-3"><svg class="icon" viewBox="0 0 512 499.36" focusable="false"><title>GitHub</title><path d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" fill="currentColor" fill-rule="evenodd"></path></svg>
     </a></p>
   </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script type="text/javascript">
+  $(function () {
+      var options = {
+          cellHeight: 60,
+          verticalMargin: 10
+      };
+      $('.grid-stack').gridstack(options);
+  });
+  </script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/addWidget.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+{
+    // Mandatory
+    "y_axis": "Number of Incidents",
+    // Optional
+    "x_axis": "Population",
+    // Optional
+    "z_axis": "Number of Guns Owned",
+    // Mandatory. Contains at least 1 value
+    "pivot": [
+        "State",
+        "Year"
+    ],
+    // The keys in the data will be the values of the first pivot level, its subkeys will be the values of the second pivot level
+    "data" : {
+        "AR" : {
+            "2016": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            },
+            "2017": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            }
+        },
+        "CA": {
+            "2016": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            },
+            "2017": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            }
+        },
+        "TX": {
+            "2016": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            },
+            "2017": {
+                "y_axis": 1000,
+                "x_axis": 100000,
+                "z_axis": 100
+            }
+        }
+    }
+}
