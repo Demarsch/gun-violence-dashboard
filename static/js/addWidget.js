@@ -38,7 +38,7 @@ function fillStatistics(childModal) {
             let keepSingleSelected = ddMenu.is('[data-keepchecked]');
             d.sort((x, y) => x.name - y.name);
             $.each(d, (_, statistics) => {
-                ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${statistics.id}">${statistics.name}</button>`)
+                ddMenu.append($(`<button class="btn-check dropdown-item ${_ === 0 ? 'active' : ''}" data-value="${statistics.id}">${statistics.name}</button>`)
                     .click(e => {
                         let button = $(e.target);
                         let wasActive = button.is('.active');
@@ -95,7 +95,7 @@ incidentsBreakdownModal.find('.modal-confirm').click(() => {
         let group = $(el);
         let groupName = group.attr('data-group');
         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
-        widgetSettings[groupName] = activeValues.length == 1 ? activeValues[0] : activeValues;
+        widgetSettings[groupName] = activeValues;
     });
     //Get inclusive and exclusive categories
     widgetSettings.includeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
@@ -113,7 +113,7 @@ incidentsCorrelationModal.find('.modal-confirm').click(() => {
         let group = $(el);
         let groupName = group.attr('data-group');
         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
-        widgetSettings[groupName] = activeValues.length == 1 ? activeValues[0] : activeValues;
+        widgetSettings[groupName] = activeValues;
     });
     //Get inclusive and exclusive categories
     widgetSettings.includeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
