@@ -21,5 +21,14 @@ def categories():
         'Accidental',
     ])
 
+@app.route('/statistics')
+def statistics():
+    return jsonify([
+        { 'id': 1, 'name': 'Population' },
+        { 'id': 2, 'name': 'Number of Gun Owned' },
+        { 'id': 3, 'name': 'Gun Friendliness Rating' },
+        { 'id': 4, 'name': 'Median Income' }
+    ])
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -29,6 +29,12 @@ footer a, footer a:hover, footer a:visited {
     text-decoration: underline;
 }
 
+.hr {
+    position: absolute;
+    left: 0.25rem;
+    right: 0.25rem;
+}
+
 .foreground-light {
     color: wheat;
 }
@@ -57,6 +63,7 @@ footer a, footer a:hover, footer a:visited {
 .btn-outline-info {
     border-color: wheat;
     color: wheat;
+    background-color: firebrick;
 }
 
 .btn-outline-info:hover,.btn-outline-info:not(:disabled):not(.disabled):active,.btn-outline-info:not(:disabled):not(.disabled):active:focus {
@@ -135,7 +142,7 @@ footer a, footer a:hover, footer a:visited {
     opacity:0.5 !important;
 }
 
-.btn-lightbg {
+.btn-check {
   width: 100%;
   margin: 0 0.25rem;
   border: 1px solid firebrick;
@@ -145,13 +152,13 @@ footer a, footer a:hover, footer a:visited {
   padding: 0.25rem 0.5rem;
 }
 
-.btn-lightbg:hover {
+.btn-check:hover {
   border-color: maroon;
   color: maroon;
   background-color: rgb(204, 184, 147);
 }
 
-.btn-lightbg.active {
+.btn-check.active {
   background-color: wheat;
 }
 
@@ -165,7 +172,7 @@ footer a, footer a:hover, footer a:visited {
   width: 100%
 }
 
-.dropdown-menu .btn-lightbg {
+.dropdown-menu .btn-check {
     margin: 0;
     border-width: 0 0 1px 0;
 }
@@ -184,6 +191,14 @@ footer a, footer a:hover, footer a:visited {
     border-radius: 0;
     background-color: firebrick;
     color: wheat;
+}
+
+.modal .row {
+    margin: 0;
+}
+
+.modal .col-3,.modal .col-4 {
+    padding: 0;
 }
 
 @media (min-width: 576px) {

@@ -4,7 +4,7 @@ $('#addWidget').click(() => {
     $('#modal').modal();
 });
 
-function createWidget(x, y, width, height, title) {
+function createWidget(widgetSettings, x, y, width, height, title) {
     let widget = $(document.createElement('div'))
         .addClass('grid-stack-item')
         .attr('data-gs-x', x)
@@ -22,10 +22,11 @@ function createWidget(x, y, width, height, title) {
         `);
     widget.find('.rm-widget-btn').click(() => widget.remove());
     $('.grid-stack').append(widget);
+    console.log(widgetSettings ? widgetSettings : 'No widget settings provided for the widget');
 }
 
-createWidget(0, 0, 7, 5, 'Cool Map');
-createWidget(8, 0, 5, 5, 'Cool Pie Chart');
-createWidget(0, 5, 4, 4, 'Chart #1');
-createWidget(4, 5, 4, 4, 'Chart #2');
-createWidget(8, 5, 4, 4, 'Chart #3');
+createWidget(null, 0, 0, 7, 5, 'Cool Map');
+createWidget(null, 8, 0, 5, 5, 'Cool Pie Chart');
+createWidget(null, 0, 5, 4, 4, 'Chart #1');
+createWidget(null, 4, 5, 4, 4, 'Chart #2');
+createWidget(null, 8, 5, 4, 4, 'Chart #3');
