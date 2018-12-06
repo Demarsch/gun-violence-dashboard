@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 file = '../data/data-dirty.csv'
-
 df = pd.read_csv(file, encoding='UTF-8')
 df = df.loc[:,['date', 
           'state',
@@ -13,4 +12,3 @@ df = df.loc[:,['date',
           'participant_status',
           'participant_type']]
 df.to_csv('../data/data-clean.csv')
-
