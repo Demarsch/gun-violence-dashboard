@@ -11,7 +11,7 @@ function fillCategories(childModal) {
             ddMenu.empty();
             d.sort();
             $.each(d, (_, category) => {
-                ddMenu.append($(`<button class="btn-check dropdown-item">${category}</button>`)
+                ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${category}">${category}</button>`)
                     .click(e => {
                         $(e.target).toggleClass('active');
                         let activeCategories = ddMenu.find('.dropdown-item.active').map((_, e) => $(e).text()).get();
@@ -86,42 +86,63 @@ addWidgetModal.find('button.btn[data-value]').click(e => {
     childModal.modal();
 });
 
+//Create widget after user clicked 'Add' button
+$('.modal-confirm').click(e => {
+    let button = $(e.target);
+    let modal = button.parents('.modal');
+    let widgetSettings = {};
+    //Get values from the options that have been activated
+    modal.find('[data-group]').each((_, el) => {
+        let group = $(el);
+        let groupName = group.attr('data-group');
+        let multiSelect = group.is('[data-multiselect]');
+        let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
+        widgetSettings[groupName] = activeValues;
+        widgetSettings[groupName] = multiSelect ? activeValues : activeValues[0];
+    });
+    modal.modal('hide');
+    createWidget(widgetSettings);
+})
+
 //This window allows user to configure settings for incidents breakdown
-let incidentsBreakdownModal = $('.modal[data-value="breakdown"]');
-incidentsBreakdownModal.find('.modal-confirm').click(() => {
-    let widgetSettings = {};
-    //Get values from the options that have been activated
-    incidentsBreakdownModal.find('[data-group]').each((_, el) => {
-        let group = $(el);
-        let groupName = group.attr('data-group');
-        let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
-        widgetSettings[groupName] = activeValues;
-    });
-    //Get inclusive and exclusive categories
-    widgetSettings.includeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
-    widgetSettings.excludeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
-    incidentsBreakdownModal.modal('hide');
-    createWidget(widgetSettings);
-});
+// let incidentsBreakdownModal = $('.modal[data-value="breakdown"]');
+// incidentsBreakdownModal.find('.modal-confirm').click(() => {
+//     let widgetSettings = {};
+//     //Get values from the options that have been activated
+//     incidentsBreakdownModal.find('[data-group]').each((_, el) => {
+//         let group = $(el);
+//         let groupName = group.attr('data-group');
+//         let multiSelect = group.is('[data-multiselect]');
+//         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
+//         widgetSettings[groupName] = activeValues;
+//         widgetSettings[groupName] = multiSelect ? activeValues : activeValues[0];
+//     });
+//     //Get inclusive and exclusive categories
+//     widgetSettings.includeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+//     widgetSettings.excludeCategories = incidentsBreakdownModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+//     incidentsBreakdownModal.modal('hide');
+//     createWidget(widgetSettings);
+// });
 
-//This window allows user to configure settings for incidents correlation
-let incidentsCorrelationModal = $('.modal[data-value="correlation"]');
-incidentsCorrelationModal.find('.modal-confirm').click(() => {
-    let widgetSettings = {};
-    //Get values from the options that have been activated
-    incidentsCorrelationModal.find('[data-group]').each((_, el) => {
-        let group = $(el);
-        let groupName = group.attr('data-group');
-        let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
-        widgetSettings[groupName] = activeValues;
-    });
-    //Get inclusive and exclusive categories
-    widgetSettings.includeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
-    widgetSettings.excludeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
-    incidentsCorrelationModal.modal('hide');
-    createWidget(widgetSettings);
+// //This window allows user to configure settings for incidents correlation
+// let incidentsCorrelationModal = $('.modal[data-value="correlation"]');
+// incidentsCorrelationModal.find('.modal-confirm').click(() => {
+//     let widgetSettings = {};
+//     //Get values from the options that have been activated
+//     incidentsCorrelationModal.find('[data-group]').each((_, el) => {
+//         let group = $(el);
+//         let groupName = group.attr('data-group');
+//         let multiSelect = group.is('[data-multiselect]');
+//         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
+//         widgetSettings[groupName] = multiSelect ? activeValues : activeValues[0];
+//     });
+//     //Get inclusive and exclusive categories
+//     widgetSettings.includeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="inclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+//     widgetSettings.excludeCategories = incidentsCorrelationModal.find('.dropdown-menu[data-value="exclusiveCategories"] .dropdown-item.active').map((_, e) => $(e).text()).get();
+//     incidentsCorrelationModal.modal('hide');
+//     createWidget(widgetSettings);
 
-});
+// });
 
 $('#addWidgetBtn').click(() => {
     addWidgetModal.modal();
