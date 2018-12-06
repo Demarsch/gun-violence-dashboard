@@ -2,6 +2,7 @@ let widget = {
     name: 'pie',
     display: 'Pie Chart',
     render: function(canvas, data) {
+        Plotly.purge(canvas);
         let values = [];
         let labels = [];
         for (let item in data.data) {

@@ -23,7 +23,15 @@ function createWidget(widgetSettings) {
     $.post('data', widgetSettings)
         .done(d => {
             console.log(d);
+            $(widgetContent).data('widgetData', d);
+            $(widgetContent).data('widgetSettings', widgetSettings);
             widgetRegistry[widgetSettings.chartType.value].render(widgetContent, d);
             $(widgetContent).css('background-image', 'none');
         })
 }
+
+$('.grid-stack').on('gsresizestop', function(event, elem) {
+    let settings = $(elem).find('.widget-content').data('widgetSettings');
+    let data = $(elem).find('.widget-content').data('widgetData');
+    widgetRegistry[settings.chartType.value].render($(elem).find('.widget-content')[0], data);
+});
