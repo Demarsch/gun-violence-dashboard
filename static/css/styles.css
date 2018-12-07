@@ -91,6 +91,18 @@ footer a, footer a:hover, footer a:visited {
 
 .grid-stack-item-content {
     border: 1px solid firebrick;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-content {
+    flex-grow: 1;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    background-image: url(../img/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .widget-header {

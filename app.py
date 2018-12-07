@@ -32,19 +32,34 @@ def statistics():
 
 @app.route('/data', methods=['POST'])
 def data():
-    data = request.get_json()
+    return jsonify({
+        'y_axis': 'Incidents',
+        'pivot': ['State'],
+        'data': {
+            'CA': {
+                'y_axis': 1000
+            },
+            'PA': {
+                'y_axis': 2000
+            },
+            'TX': {
+                'y_axis': 1500
+            }
+        }
+    })
+    #data = request.get_json()
     # incidents, killed, injured
-    y_axis = data['yAxis']['value']
+    #y_axis = data['yAxis']['value']
     # one of the supplementary stats
-    x_axis = data.get('xAxis')
-    x_axis = int(xAxis['id']) if xAxis else None
+    #x_axis = data.get('xAxis')
+    #x_axis = int(xAxis['id']) if xAxis else None
     # one of the supplementary stats
-    z_axis = data.get('zAxis')
-    z_axis = int(zAxis['id']) if zAxis else None
+    #z_axis = data.get('zAxis')
+    #z_axis = int(zAxis['id']) if zAxis else None
     # pivots
-    pivots = [item['value'] for item in data['pivotBy']]
-    inc_cat = data['includeCategories']
-    inc_cat = data['excludeCategories']
+    #pivots = [item['value'] for item in data['pivotBy']]
+    #inc_cat = data['includeCategories']
+    #inc_cat = data['excludeCategories']
 
     # 1.Apply filter to the incidents by inclusive and exclusive categories
     # SELECT i.* FROM incidents i

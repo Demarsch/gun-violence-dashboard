@@ -14,6 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.jQueryUI.min.js'></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
@@ -113,7 +114,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="breakdownIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-value="inclusiveCategories" aria-labelledby="breakdownIncCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-group="inclusiveCategories" data-multiselect aria-labelledby="breakdownIncCatDdButton">
                   </div>
                 </div>
             </div>
@@ -125,7 +126,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="breakdownExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-value="exclusiveCategories" aria-labelledby="breakdownExcCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-group="exclusiveCategories" data-multiselect aria-labelledby="breakdownExcCatDdButton">
                   </div>
                 </div>
             </div>
@@ -193,7 +194,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="correlationIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-value="inclusiveCategories" aria-labelledby="correlationIncCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-group="inclusiveCategories" data-multiselect aria-labelledby="correlationIncCatDdButton">
                   </div>
                 </div>
             </div>
@@ -205,7 +206,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="correlationExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-value="exclusiveCategories" aria-labelledby="correlationExcCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-group="exclusiveCategories" data-multiselect aria-labelledby="correlationExcCatDdButton">
                   </div>
                 </div>
             </div>
@@ -288,5 +289,6 @@
   </script>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   <script src="{{ url_for('static', filename='js/addWidget.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/pieChart.js') }}"></script>
 </body>
 </html>
