@@ -1,5 +1,5 @@
 let build_3_axis_bubble = {    
-    name: 'bubble'
+    name: 'bubble',
     display: 'Bubble Chart',
     render: function(canvas,data){
         Plotly.purge(canvas);
@@ -7,8 +7,8 @@ let build_3_axis_bubble = {
         input_dataY = []
         input_dataZ = []
         for (let item in data.data) {
-            values.push(data.data[item].y_axis);
-            labels.push(item);
+            input_dataY.push(data.data[item].y_axis);
+            input_dataX.push(item);
     }
     let bubba_trace = {
             type:"bubble",
@@ -18,7 +18,6 @@ let build_3_axis_bubble = {
             mode:'markers',
             marker: {
           size: input_dataX,
-          color: input_dataY,
           colorscale: "Reds"
         }
             };
@@ -36,7 +35,7 @@ let build_3_axis_bubble = {
             };                             
         
     
-         Plotly.newPlot("mybubble", data2, bubba_layout);
+         Plotly.newPlot(canvas, data2, bubba_layout);
       
 }
     

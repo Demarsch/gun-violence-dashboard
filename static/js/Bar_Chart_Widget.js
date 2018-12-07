@@ -1,13 +1,13 @@
 let bar_Chart = {
-    name: 'bar'
+    name: 'bar',
     display: 'Bar Chart',
-    render function (canvas,data) {
+    render: function (canvas,data) {
         Plotly.purge(canvas);
         let xValue = [];
         let yValue =[];
-        or (let item in data.data) {
-            values.push(data.data[item].y_axis);
-            labels.push(item); 
+        for (let item in data.data) {
+            yValue.push(data.data[item].y_axis);
+            xValue.push(item); 
         }   
         let trace1 = {
             type: 'bar',
@@ -32,6 +32,7 @@ let bar_Chart = {
                     }    
         };
 
-        Plotly.newPlot('myDiv', data2, layout, {responsive: true});
+        Plotly.newPlot(canvas, data2, layout, {responsive: true});
     }
 };
+widgetRegistry[bar_Chart.name] = bar_Chart;
