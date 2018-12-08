@@ -1,21 +1,21 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[7]:
 
 
 from db_schema import engine, Incident, Category, Participant
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func
+from sqlalchemy import func, extract
 
 
-# In[ ]:
+# In[8]:
 
 
 Session = sessionmaker(bind=engine)
 
 
-# In[ ]:
+# In[9]:
 
 
 participant_pivots = { 'victimAge', 'victimGender', 'suspectAge', 'suspectGender' }
@@ -43,8 +43,14 @@ participant_type_filters = {
     'suspectGender': (Participant.is_victim, False),
 }
 
+incident_aggregate_selectors = {
+    'incidents': func.count(),
+    'killed': func.sum(Incident.n_killed),
+    'injured': func.sum(Incident.n_injured)
+}
 
-# In[ ]:
+
+# In[10]:
 
 
 def get_data(settings):
@@ -53,20 +59,22 @@ def get_data(settings):
     # Extracting values
     inclusive_categories = [value['value'] for value in settings['inclusiveCategories']]
     exclusive_categories = [value['value'] for value in settings['exclusiveCategories']]
+    years = [int(value['value']) for value in settings['years']]
     pivots = [value['value'] for value in settings['pivotBy']]
     y_axis = settings['yAxis']['value']
     
     # Check data type
-    has_participant_pivot = len(participant_pivots.intersection(pivots)) > 0
-    has_incident_pivot = len(incident_pivots.intersection(pivots)) > 0
-    has_incident_filter = len(inclusive_categories) > 0 or len(exclusive_categories) > 0
+    has_participant_pivot = len(participant_pivots.intersection(pivots))
+    has_incident_pivot = len(incident_pivots.intersection(pivots))
+    has_incident_filter = len(inclusive_categories) or len(exclusive_categories) or len(years)
     
     # 1. Add group by selectors 
     group_selectors = []
     for pivot in pivots:
         group_selectors.append(group_by_selectors[pivot])
     # 2. Add aggregate selector
-    query_selectors = group_selectors + [func.count()]
+    aggregate_selector = func.count() if has_participant_pivot else incident_aggregate_selectors[y_axis]
+    query_selectors = group_selectors + [aggregate_selector]
     query = session.query(*query_selectors)
     # 3. Add join if both incidents and participants
     if has_participant_pivot and (has_incident_pivot or has_incident_filter):
@@ -92,6 +100,9 @@ def get_data(settings):
     # 7. Add filter to ignore items with unknown value
     for group_selector in group_selectors:
         query = query.filter(group_selector != None)
+    # 8. Add filter by years
+    if len(years):
+        query = query.filter(extract('year', Incident.date).in_(years))
     # 8. Add group by
     query = query.group_by(*group_selectors)
     
@@ -109,14 +120,14 @@ def get_data(settings):
     return result    
 
 
-# In[ ]:
+# In[11]:
 
 
 def get_categories():
     return [c[0] for c in Session().query(Category.name).all()]
 
 
-# In[ ]:
+# In[13]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
