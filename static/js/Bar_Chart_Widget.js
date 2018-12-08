@@ -14,7 +14,7 @@ let bar_Chart = {
             x: xValue,
             y: yValue,   
             marker: {
-                color: '#C8A2C8',
+                color: '#BB2222',
                 line: {
                     width: 2.5
                 }
@@ -27,7 +27,7 @@ let bar_Chart = {
             margin: {
                     t: 10,
                     r: 10,
-                    b: 10,
+                    b: 25,
                     l: 0
                     }    
         };
