@@ -48,7 +48,8 @@ let mapWidget = {
 	         	  },	                          
 	      };
 
-	      Plotly.plot(canvas, data, layout, {responsive: true, fixedplot: true});
+	      Plotly.plot(canvas, data, layout, {responsive: true});
+	      $(canvas).mousedown(e => e.stopPropagation());
 	}};
 
 widgetRegistry[mapWidget.name] = mapWidget;
