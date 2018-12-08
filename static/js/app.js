@@ -20,7 +20,7 @@ function createWidget(widgetSettings) {
     widget.find('.rm-widget-btn').click(() => grid.removeWidget(widget));
     grid.addWidget(widget, null, null, 3, 3, true);
     let widgetContent = widget.find('.widget-content')[0];
-    $.post('data', widgetSettings)
+    $.post('data', JSON.stringify(widgetSettings))
         .done(d => {
             console.log(d);
             $(widgetContent).data('widgetData', d);
