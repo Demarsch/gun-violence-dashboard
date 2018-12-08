@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
 # In[22]:
@@ -20,8 +20,8 @@ Base = declarative_base()
 
 
 incident_categories = Table('incident_categories', Base.metadata,
-    Column('incident_id', Integer, ForeignKey('incidents.id')),
-    Column('category_id', Integer, ForeignKey('categories.id')))
+    Column('incident_id', ForeignKey('incidents.id'), primary_key=True),
+    Column('category_id', ForeignKey('categories.id'), primary_key=True))
 
 
 # In[25]:
@@ -38,7 +38,8 @@ class Incident(Base):
     
     categories = relationship('Category',
                             secondary=incident_categories,
-                            backref='incidents')    
+                            back_populates='incidents')
+    participants = relationship('Participant', back_populates='incident')
 
 
 # In[26]:
@@ -52,7 +53,7 @@ class Category(Base):
     
     incidents = relationship('Incident',
                             secondary=incident_categories,
-                            backref='categories')
+                            back_populates='categories')
 
 
 # In[27]:
@@ -64,15 +65,21 @@ class Participant(Base):
     id = Column(Integer, primary_key=True)
     incident_id = Column(Integer, ForeignKey('incidents.id'))
     age = Column(Integer)
-    gender = Column(String(1))
+    is_male = Column(Boolean)
     is_killed = Column(Boolean)
     is_victim = Column(Boolean)
     
-    incident = relationship('Incident')
+    incident = relationship('Incident', back_populates='participants')
 
 
 # In[28]:
 
 
 Base.metadata.create_all(engine)
+
+
+# In[2]:
+
+
+#!jupyter nbconvert --to Script db_scheme
 
