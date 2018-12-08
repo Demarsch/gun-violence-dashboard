@@ -2,6 +2,8 @@ let categories = fetch('categories').then(r => r.json());
 
 let statistics = fetch('statistics').then(r => r.json());
 
+const years = [2013, 2014, 2015, 2016, 2017, 2018]
+
 //Populate categories menus
 function fillCategories(childModal) {
     categories.then(d => {
@@ -9,6 +11,7 @@ function fillCategories(childModal) {
         ddMenus.each((_, el) => {
             let ddMenu = $(el);
             ddMenu.empty();
+            ddMenu.prev('button').text('- Select Categories -');
             d.sort();
             $.each(d, (_, category) => {
                 ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${category}">${category}</button>`)
@@ -35,6 +38,7 @@ function fillStatistics(childModal) {
         ddMenus.each((_, el) => {
             let ddMenu = $(el);
             ddMenu.empty();
+            ddMenu.prev('button').text('- Select Statistics -')
             let keepSingleSelected = ddMenu.is('[data-keepchecked]');
             d.sort((x, y) => x.name - y.name);
             $.each(d, (_, statistics) => {
@@ -50,6 +54,29 @@ function fillStatistics(childModal) {
                     }));
             })
         });
+    });
+}
+//Populate years menus
+function fillYears(childModal) {
+    let ddMenus = childModal.find('.dropdown-menu[data-type="years"]');
+    ddMenus.each((_, el) => {
+        let ddMenu = $(el);
+        ddMenu.empty();
+        ddMenu.prev('button').text('All');
+        let keepSingleSelected = ddMenu.is('[data-keepchecked]');
+        $.each(years, (_, year) => {
+            ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${year}">${year}</button>`)
+                .click(e => {
+                    $(e.target).toggleClass('active');
+                    let activeYears = ddMenu.find('.dropdown-item.active').map((_, e) => $(e).text()).get();
+                    let ddButton = ddMenu.prev('button');
+                    if (activeYears.length == 0 || activeYears.length == years.length) {
+                        ddButton.text('All');
+                    } else {
+                        ddButton.text(activeYears.join(', '));
+                    }
+                }));
+        })
     });
 }
 
@@ -72,7 +99,7 @@ $('.modal div[data-group] button:not(.inactive)')
     });
 
 //Do not close categories drop-down menus when category is selected
-$('.modal .dropdown-menu[data-type="categories"]').click(e => e.stopPropagation());
+$('.modal .dropdown-menu[data-keepopen]').click(e => e.stopPropagation());
 
 //This window allows user to pick the type of investigation he wants to perform: incidents breakdown or incidents correlation
 let addWidgetModal = $('#addWidgetModal');
@@ -83,6 +110,7 @@ addWidgetModal.find('button.btn[data-value]').click(e => {
     addWidgetModal.modal('hide');
     fillCategories(childModal);
     fillStatistics(childModal);
+    fillYears(childModal);
     childModal.modal();
 });
 

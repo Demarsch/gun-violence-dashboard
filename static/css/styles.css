@@ -156,22 +156,24 @@ footer a, footer a:hover, footer a:visited {
 
 .btn-check {
   width: 100%;
-  margin: 0 0.25rem;
+  margin: 1px;
   border: 1px solid firebrick;
   color: firebrick;
-  background-color: white;
+  background-color: wheat;
   transition: background-color 0.3s;
   padding: 0.25rem 0.5rem;
 }
 
 .btn-check:hover {
   border-color: maroon;
-  color: maroon;
-  background-color: wheat;
+  background-color: #bb222240;
 }
 
 .btn-check.active {
-  background-color: rgb(204, 184, 147);
+  margin-top: 1px;
+  background-color: firebrick;
+  border-color: wheat;
+  color: wheat;
 }
 
 .dropdown-menu {
@@ -181,16 +183,12 @@ footer a, footer a:hover, footer a:visited {
   border-top-width: 0;
   max-height: 10rem;
   overflow-y: auto;
-  width: 100%
+  min-width: 100%
 }
 
 .dropdown-menu .btn-check {
     margin: 0;
     border-width: 0 0 1px 0;
-}
-
-.dropdown-item.active {
-    color: firebrick;
 }
 
 .modal-content {

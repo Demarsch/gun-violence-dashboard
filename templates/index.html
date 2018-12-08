@@ -114,7 +114,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="breakdownIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-group="inclusiveCategories" data-multiselect aria-labelledby="breakdownIncCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-keepopen data-group="inclusiveCategories" data-multiselect aria-labelledby="breakdownIncCatDdButton">
                   </div>
                 </div>
             </div>
@@ -126,9 +126,23 @@
                   <button class="btn-check dropdown-toggle" type="button" id="breakdownExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-group="exclusiveCategories" data-multiselect aria-labelledby="breakdownExcCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-keepopen data-group="exclusiveCategories" data-multiselect aria-labelledby="breakdownExcCatDdButton">
                   </div>
                 </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              Years
+            </div>
+            <div class="col-9">
+              <div class="dropdown">
+                <button class="btn-check dropdown-toggle" type="button" id="breakdownYearsDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  All
+                </button>
+                <div class="dropdown-menu" data-type="years" data-group="years" data-keepopen data-multiselect aria-labelledby="breakdownYearsDdButton">
+                </div>
+              </div>
             </div>
           </div>
           <div class="row" data-group="chartType" data-keepchecked>
@@ -194,7 +208,7 @@
                   <button class="btn-check dropdown-toggle" type="button" id="correlationIncCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-group="inclusiveCategories" data-multiselect aria-labelledby="correlationIncCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-keepopen data-group="inclusiveCategories" data-multiselect aria-labelledby="correlationIncCatDdButton">
                   </div>
                 </div>
             </div>
@@ -206,9 +220,23 @@
                   <button class="btn-check dropdown-toggle" type="button" id="correlationExcCatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     - Select Categories -
                   </button>
-                  <div class="dropdown-menu" data-type="categories" data-group="exclusiveCategories" data-multiselect aria-labelledby="correlationExcCatDdButton">
+                  <div class="dropdown-menu" data-type="categories" data-keepopen data-group="exclusiveCategories" data-multiselect aria-labelledby="correlationExcCatDdButton">
                   </div>
                 </div>
+            </div>
+          </div>          
+          <div class="row">
+            <div class="col-3">
+              Years
+            </div>
+            <div class="col-9">
+              <div class="dropdown">
+                <button class="btn-check dropdown-toggle" type="button" id="correlationYearsDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  All
+                </button>
+                <div class="dropdown-menu" data-type="years" data-keepopen data-group="years" data-multiselect aria-labelledby="correlationYearsDdButton">
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
