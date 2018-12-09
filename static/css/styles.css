@@ -191,6 +191,19 @@ footer a, footer a:hover, footer a:visited {
     border-width: 0 0 1px 0;
 }
 
+.widget-name {
+    color: firebrick;
+    border: 1px solid firebrick;
+}
+
+.widget-name:focus {
+    background-color: #fff;
+    border-color: initial;
+    outline: 0;
+    box-shadow: 0 0 0 0.1rem firebrick;
+    color: maroon;
+}
+
 .modal-content {
     border: none;
     border-radius: 0;

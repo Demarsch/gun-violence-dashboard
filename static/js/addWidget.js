@@ -114,6 +114,7 @@ addWidgetModal.find('button.btn[data-value]').click(e => {
     fillCategories(childModal);
     fillStatistics(childModal);
     fillYears(childModal);
+    childModal.find('.widget-name').val('');
     childModal.modal();
 });
 
@@ -130,7 +131,8 @@ $('.modal-confirm').click(e => {
         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
         widgetSettings[groupName] = activeValues;
         widgetSettings[groupName] = multiSelect ? activeValues : activeValues[0];
-    });
+    });    
+    widgetSettings.title = modal.find('.widget-name').val().trim() || 'New Widget';
     modal.modal('hide');
     createWidget(widgetSettings);
 })

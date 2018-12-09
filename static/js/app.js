@@ -10,8 +10,7 @@ function createWidget(widgetSettings) {
     <div>
         <div class="grid-stack-item-content">
             <div class="widget-header">    
-                <h2>New Widget</h2>
-                <a class="st-widget-btn" title="Settings" href="#"><img src="static/img/gear.svg"></a>
+                <h2>${widgetSettings.title}</h2>
                 <a class="rm-widget-btn" title="Delete Widget" href="#"><img src="static/img/close.svg"></a>
             </div>
             <div class="widget-content"></div>
