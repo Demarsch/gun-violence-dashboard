@@ -4,6 +4,15 @@ let statistics = fetch('statistics').then(r => r.json());
 
 const years = [2013, 2014, 2015, 2016, 2017, 2018]
 
+const states = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
+    'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
+    'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH',
+    'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
+    'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI',
+    'WY'
+];
+
 //Populate categories menus
 function fillCategories(childModal) {
     categories.then(d => {
@@ -66,7 +75,6 @@ function fillYears(childModal) {
         let ddMenu = $(el);
         ddMenu.empty();
         ddMenu.prev('button').text('All');
-        let keepSingleSelected = ddMenu.is('[data-keepchecked]');
         $.each(years, (_, year) => {
             ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${year}">${year}</button>`)
                 .click(e => {
@@ -77,6 +85,30 @@ function fillYears(childModal) {
                         ddButton.text('All');
                     } else {
                         ddButton.text(activeYears.join(', '));
+                    }
+                }));
+        })
+    });
+}
+//Populate state menus
+function fillStates(childModal) {
+    let ddMenus = childModal.find('.dropdown-menu[data-type="states"]');
+    ddMenus.each((_, el) => {
+        let ddMenu = $(el);
+        ddMenu.empty();
+        ddMenu.prev('button').text('All');
+        $.each(states, (_, state) => {
+            ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${state}">${state}</button>`)
+                .click(e => {
+                    $(e.target).toggleClass('active');
+                    let activeStates = ddMenu.find('.dropdown-item.active').map((_, e) => $(e).text()).get();
+                    let ddButton = ddMenu.prev('button');
+                    if (activeStates.length == 0 || activeStates.length == states.length) {
+                        ddButton.text('All');
+                    } else if (activeStates.length < 10) {
+                        ddButton.text(activeStates.join(', '));
+                    } else {
+                        ddButton.text(`${activeStates.length} States Selected`)
                     }
                 }));
         })
@@ -114,6 +146,7 @@ addWidgetModal.find('button.btn[data-value]').click(e => {
     fillCategories(childModal);
     fillStatistics(childModal);
     fillYears(childModal);
+    fillStates(childModal);
     childModal.find('.widget-name').val('');
     childModal.modal();
 });

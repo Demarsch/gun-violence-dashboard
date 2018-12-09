@@ -68,42 +68,6 @@ incident_aggregate_selectors = {
 session = Session()
 
 
-# In[5]:
-
-
-w_settings = {
-    "yAxis": {
-        "value": "incidents",
-        "display": "# Incidents"
-    },
-    "inclusiveCategories": [],
-    "exclusiveCategories": [],
-    "years": [],
-    "xAxis": {
-        "value": "1",
-        "display": "Guns Owned"
-    },
-    "zAxis": {
-        "value": "2",
-        "display": "Population"
-    },
-    "pivotBy": [
-        {
-            "value": "state",
-            "display": "State"
-        },
-        {
-            'value': 'year',
-            'display': 'Year'
-        }
-    ],
-    "chartType": {
-        "value": "pie",
-        "display": "Pie Chart"
-    }
-}
-
-
 # In[6]:
 
 
@@ -113,6 +77,7 @@ def _get_statistic(session, settings, axis):
     id = int(settings[axis]['value'])   
     pivots = [value['value'] for value in settings['pivotBy']]
     years = [int(value['value']) for value in settings['years']]
+    states = [value['value'] for value in settings['states']]
     # 1. Add group by selectors
     group_selectors = []
     for pivot in pivots:
@@ -121,10 +86,12 @@ def _get_statistic(session, settings, axis):
     query = session.query(*group_selectors, func.sum(StatisticsValue.value)).        filter(StatisticsValue.statistics_id == id).        group_by(*group_selectors)
     # 3. Filter by year
     if len(years):
-        query = query.filter(extract('year', Incident.date).in_(years))
+        query = query.filter(StatisticsValue.year.in_(years))
+    # 4. Filter by state
+    if len(states):
+        query = query.filter(StatisticsValue.state.in_(states))
     # Executing query and converting it to proper format
     data = query.all()
-    print(data)
     result = {}
     result['axis_label'] = axis_label
     result[axis_label] = settings[axis]['display']
@@ -145,6 +112,7 @@ def _get_incidents(session, settings):
     inclusive_categories = [value['value'] for value in settings['inclusiveCategories']]
     exclusive_categories = [value['value'] for value in settings['exclusiveCategories']]
     years = [int(value['value']) for value in settings['years']]
+    states = [value['value'] for value in settings['states']]
     pivots = [value['value'] for value in settings['pivotBy']]
     y_axis = settings['yAxis']['value']
     
@@ -189,8 +157,11 @@ def _get_incidents(session, settings):
         query = query.filter(group_selector != None)
     # 8. Add filter by years
     if len(years):
-        query = query.filter(extract('year', Incident.date).in_(years))
-    # 8. Add group by
+        query = query.filter(extract('year', Incident.date).in_(years))  
+    # 9. Filter by state
+    if len(states):
+        query = query.filter(Incident.state.in_(states))
+    # 10. Add group by
     query = query.group_by(*group_selectors)
     
     # Executing query and converting it to proper format
@@ -257,7 +228,7 @@ def get_statistics():
     return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
 
 
-# In[15]:
+# In[1]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
