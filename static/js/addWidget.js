@@ -4,6 +4,15 @@ let statistics = fetch('statistics').then(r => r.json());
 
 const years = [2013, 2014, 2015, 2016, 2017, 2018]
 
+const states = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL',
+    'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME',
+    'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH',
+    'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
+    'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI',
+    'WY'
+];
+
 //Populate categories menus
 function fillCategories(childModal) {
     categories.then(d => {
@@ -42,7 +51,7 @@ function fillStatistics(childModal) {
             let keepSingleSelected = ddMenu.is('[data-keepchecked]');
             d.sort((x, y) => x.name - y.name);
             $.each(d, (_, statistics) => {
-                ddMenu.append($(`<button class="btn-check dropdown-item ${_ === 0 ? 'active' : ''}" data-value="${statistics.id}">${statistics.name}</button>`)
+                ddMenu.append($(`<button class="btn-check dropdown-item ${_ === 0 && ddMenu.is('[data-keepchecked]') ? 'active' : ''}" data-value="${statistics.id}">${statistics.name}</button>`)
                     .click(e => {
                         let button = $(e.target);
                         let wasActive = button.is('.active');
@@ -53,6 +62,9 @@ function fillStatistics(childModal) {
                         ddButton.text(isActive ? button.text() : '- Select Statistics -');
                     }));
             })
+            if (ddMenu.is('[data-keepchecked]')) {
+                ddMenu.prev('button').text(d[0].name);
+            }
         });
     });
 }
@@ -63,7 +75,6 @@ function fillYears(childModal) {
         let ddMenu = $(el);
         ddMenu.empty();
         ddMenu.prev('button').text('All');
-        let keepSingleSelected = ddMenu.is('[data-keepchecked]');
         $.each(years, (_, year) => {
             ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${year}">${year}</button>`)
                 .click(e => {
@@ -74,6 +85,30 @@ function fillYears(childModal) {
                         ddButton.text('All');
                     } else {
                         ddButton.text(activeYears.join(', '));
+                    }
+                }));
+        })
+    });
+}
+//Populate state menus
+function fillStates(childModal) {
+    let ddMenus = childModal.find('.dropdown-menu[data-type="states"]');
+    ddMenus.each((_, el) => {
+        let ddMenu = $(el);
+        ddMenu.empty();
+        ddMenu.prev('button').text('All');
+        $.each(states, (_, state) => {
+            ddMenu.append($(`<button class="btn-check dropdown-item" data-value="${state}">${state}</button>`)
+                .click(e => {
+                    $(e.target).toggleClass('active');
+                    let activeStates = ddMenu.find('.dropdown-item.active').map((_, e) => $(e).text()).get();
+                    let ddButton = ddMenu.prev('button');
+                    if (activeStates.length == 0 || activeStates.length == states.length) {
+                        ddButton.text('All');
+                    } else if (activeStates.length < 10) {
+                        ddButton.text(activeStates.join(', '));
+                    } else {
+                        ddButton.text(`${activeStates.length} States Selected`)
                     }
                 }));
         })
@@ -111,6 +146,8 @@ addWidgetModal.find('button.btn[data-value]').click(e => {
     fillCategories(childModal);
     fillStatistics(childModal);
     fillYears(childModal);
+    fillStates(childModal);
+    childModal.find('.widget-name').val('');
     childModal.modal();
 });
 
@@ -127,7 +164,8 @@ $('.modal-confirm').click(e => {
         let activeValues = group.find('[data-value].active').map((_, e) => ({ value: $(e).attr('data-value'), display: $(e).text() })).get();
         widgetSettings[groupName] = activeValues;
         widgetSettings[groupName] = multiSelect ? activeValues : activeValues[0];
-    });
+    });    
+    widgetSettings.title = modal.find('.widget-name').val().trim() || 'New Widget';
     modal.modal('hide');
     createWidget(widgetSettings);
 })

@@ -1,7 +1,13 @@
 widgetRegistry = {};
 
+let widgetCount = 0;
+
 $('#addWidget').click(() => {
-    $('#modal').modal();
+    $('#addWidgetModal').modal();
+});
+
+$('#addFirstWidget').click(e => {
+    $('#addWidgetModal').modal();
 });
 
 function createWidget(widgetSettings) {
@@ -10,19 +16,25 @@ function createWidget(widgetSettings) {
     <div>
         <div class="grid-stack-item-content">
             <div class="widget-header">    
-                <h2>New Widget</h2>
-                <a class="st-widget-btn" title="Settings" href="#"><img src="static/img/gear.svg"></a>
+                <h2>${widgetSettings.title}</h2>
                 <a class="rm-widget-btn" title="Delete Widget" href="#"><img src="static/img/close.svg"></a>
             </div>
             <div class="widget-content"></div>
         </div>
     </div>`);
-    widget.find('.rm-widget-btn').click(() => grid.removeWidget(widget));
+    widget.find('.rm-widget-btn').click(() => {
+        grid.removeWidget(widget);
+        widgetCount--;
+        if (!widgetCount) {
+            $('#addFirstWidget').fadeIn();
+        }
+    });
+    $('#addFirstWidget').hide();
     grid.addWidget(widget, null, null, 3, 3, true);
+    widgetCount++;
     let widgetContent = widget.find('.widget-content')[0];
     $.post('data', JSON.stringify(widgetSettings))
         .done(d => {
-            console.log(d);
             $(widgetContent).data('widgetData', d);
             $(widgetContent).data('widgetSettings', widgetSettings);
             widgetRegistry[widgetSettings.chartType.value].render(widgetContent, d);

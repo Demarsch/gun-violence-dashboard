@@ -15,12 +15,7 @@ def categories():
 
 @app.route('/statistics')
 def statistics():
-    return jsonify([
-        { 'id': 1, 'name': 'Population' },
-        { 'id': 2, 'name': 'Number of Gun Owned' },
-        { 'id': 3, 'name': 'Gun Friendliness Rating' },
-        { 'id': 4, 'name': 'Median Income' }
-    ])
+    return jsonify(dr.get_statistics())
 
 @app.route('/data', methods=['POST'])
 def data():

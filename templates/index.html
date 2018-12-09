@@ -26,8 +26,11 @@
     </a>
     <button id="addWidgetBtn" class="btn btn-outline-info ml-3">Add Widget</button>
   </nav>
-  <section class="grid-stack">
-  </section> 
+  <div class="body-container">
+    <section class="grid-stack">
+    </section>
+    <button id="addFirstWidget" class="btn btn-outline-info ">Add Your First Widget</button>
+  </div> 
   
   <div class="modal" id="addWidgetModal" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -145,6 +148,20 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-3">
+              States
+            </div>
+            <div class="col-9">
+              <div class="dropdown">
+                <button class="btn-check dropdown-toggle" type="button" id="breakdownStatesDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  All
+                </button>
+                <div class="dropdown-menu" data-type="states" data-group="states" data-keepopen data-multiselect aria-labelledby="breakdownStatesDdButton">
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row" data-group="chartType" data-keepchecked>
             <div class="col-12">
               <p class="text-center my-2">How do you want to display it?</p>
@@ -160,6 +177,14 @@
             </div>
             <div class="col-3">
               <button class="btn-check" data-value="bar">Bar Chart</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-2">What do you want to call it?</p>
+            </div>
+            <div class="col-12 p-0">
+              <input class="form-control widget-name" type="text" placeholder="e.g. Accidental Kills 2014-2015">
             </div>
           </div>
         </div>
@@ -240,6 +265,20 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-3">
+              States
+            </div>
+            <div class="col-9">
+              <div class="dropdown">
+                <button class="btn-check dropdown-toggle" type="button" id="correlationStatesDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  All
+                </button>
+                <div class="dropdown-menu" data-type="states" data-group="states" data-keepopen data-multiselect aria-labelledby="correlationStatesDdButton">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
               <div class="col-12">
                 <p class="text-center my-2">What do you want to correlate it with?</p>
               </div>           
@@ -278,10 +317,7 @@
               <p class="text-center my-2">How do you want to display it?</p>
             </div>
             <div class="col-3">
-              <button class="btn-check active" data-value="pie">Pie Chart</button>
-            </div>
-            <div class="col-3">
-              <button class="btn-check" data-value="bubble">Bubble Chart</button>
+              <button class="btn-check active" data-value="bubble">Bubble Chart</button>
             </div>
             <div class="col-3">
               <button class="btn-check" data-value="map">Map</button>
@@ -289,8 +325,13 @@
             <div class="col-3">
               <button class="btn-check" data-value="hist">Histogram</button>
             </div>
-            <div class="col-3">
-              <button class="btn-check" data-value="bar">Bar Chart</button>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-2">What do you want to call it?</p>
+            </div>
+            <div class="col-12 p-0">
+              <input class="form-control widget-name" type="text" placeholder="e.g. Accidental Kills 2014-2015">
             </div>
           </div>
         </div>
