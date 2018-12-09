@@ -103,6 +103,7 @@ footer a, footer a:hover, footer a:visited {
     background-image: url(../img/loading.gif);
     background-repeat: no-repeat;
     background-position: center;
+    background-color: white;
 }
 
 .widget-header {
@@ -222,6 +223,30 @@ footer a, footer a:hover, footer a:visited {
 
 .modal .col-3,.modal .col-4 {
     padding: 0;
+}
+
+.body-container {
+    position: relative;
+    flex-grow: 1;
+    background-color: wheat;
+}
+
+#addFirstWidget {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 250%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 2rem;
+    border-color: firebrick;
+    color: firebrick;
+    background-color: wheat;
+}
+
+#addFirstWidget:hover {
+    color: wheat;
+    background-color: firebrick;
 }
 
 @media (min-width: 576px) {
