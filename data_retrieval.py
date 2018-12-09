@@ -1,21 +1,21 @@
-#!/usr/bin/env python
+
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 
-from db_schema import engine, Incident, Category, Participant
+from db_schema import engine, Incident, Category, Participant, Statistics
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func, extract
 
 
-# In[8]:
+# In[2]:
 
 
 Session = sessionmaker(bind=engine)
 
 
-# In[9]:
+# In[3]:
 
 
 participant_pivots = { 'victimAge', 'victimGender', 'suspectAge', 'suspectGender' }
@@ -50,7 +50,7 @@ incident_aggregate_selectors = {
 }
 
 
-# In[10]:
+# In[4]:
 
 
 def get_data(settings):
@@ -120,14 +120,21 @@ def get_data(settings):
     return result    
 
 
-# In[11]:
+# In[5]:
 
 
 def get_categories():
     return [c[0] for c in Session().query(Category.name).all()]
 
 
-# In[13]:
+# In[6]:
+
+
+def get_statistics():
+    return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
+
+
+# In[10]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
