@@ -4,7 +4,7 @@
 # In[1]:
 
 
-from db_schema import engine, Incident, Category, Participant, Statistics
+from db_schema import engine, Incident, Category, Participant, Statistics, StatisticsValue
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import func, extract
 
@@ -20,6 +20,18 @@ Session = sessionmaker(bind=engine)
 
 participant_pivots = { 'victimAge', 'victimGender', 'suspectAge', 'suspectGender' }
 incident_pivots = { 'state', 'year', 'yearMonth' }
+
+stat_group_by_selectors = {
+    'state': StatisticsValue.state,
+    'year': StatisticsValue.year
+}
+
+group_by_converters = {
+    'year': lambda x: int(x),
+    'victimGender': lambda x: 'Male' if x else 'Female',
+    'suspectGender': lambda x: 'Male' if x else 'Female'
+}
+
 group_by_selectors = {
     'state': Incident.state,
     'year': func.strftime('%Y', Incident.date),
@@ -53,9 +65,82 @@ incident_aggregate_selectors = {
 # In[4]:
 
 
-def get_data(settings):
-    session = Session()
-    
+session = Session()
+
+
+# In[5]:
+
+
+w_settings = {
+    "yAxis": {
+        "value": "incidents",
+        "display": "# Incidents"
+    },
+    "inclusiveCategories": [],
+    "exclusiveCategories": [],
+    "years": [],
+    "xAxis": {
+        "value": "1",
+        "display": "Guns Owned"
+    },
+    "zAxis": {
+        "value": "2",
+        "display": "Population"
+    },
+    "pivotBy": [
+        {
+            "value": "state",
+            "display": "State"
+        },
+        {
+            'value': 'year',
+            'display': 'Year'
+        }
+    ],
+    "chartType": {
+        "value": "pie",
+        "display": "Pie Chart"
+    }
+}
+
+
+# In[6]:
+
+
+def _get_statistic(session, settings, axis):
+    # Extract data
+    axis_label = 'x_axis' if axis == 'xAxis' else 'z_axis'
+    id = int(settings[axis]['value'])   
+    pivots = [value['value'] for value in settings['pivotBy']]
+    years = [int(value['value']) for value in settings['years']]
+    # 1. Add group by selectors
+    group_selectors = []
+    for pivot in pivots:
+        group_selectors.append(stat_group_by_selectors[pivot])
+    # 2. Create query
+    query = session.query(*group_selectors, func.sum(StatisticsValue.value)).        filter(StatisticsValue.statistics_id == id).        group_by(*group_selectors)
+    # 3. Filter by year
+    if len(years):
+        query = query.filter(extract('year', Incident.date).in_(years))
+    # Executing query and converting it to proper format
+    data = query.all()
+    print(data)
+    result = {}
+    result['axis_label'] = axis_label
+    result[axis_label] = settings[axis]['display']
+    result['data'] = {}
+    for item in data:
+        item_data = result['data']
+        for sub_item in item[:-1]:        
+            item_data = item_data.setdefault(sub_item, {})
+        item_data[axis_label] = item[-1]
+    return result
+
+
+# In[7]:
+
+
+def _get_incidents(session, settings):
     # Extracting values
     inclusive_categories = [value['value'] for value in settings['inclusiveCategories']]
     exclusive_categories = [value['value'] for value in settings['exclusiveCategories']]
@@ -70,8 +155,10 @@ def get_data(settings):
     
     # 1. Add group by selectors 
     group_selectors = []
+    group_converters = []
     for pivot in pivots:
         group_selectors.append(group_by_selectors[pivot])
+        group_converters.append(group_by_converters.get(pivot))
     # 2. Add aggregate selector
     aggregate_selector = func.count() if has_participant_pivot else incident_aggregate_selectors[y_axis]
     query_selectors = group_selectors + [aggregate_selector]
@@ -114,27 +201,63 @@ def get_data(settings):
     result['data'] = {}
     for item in data:
         item_data = result['data']
-        for sub_item in item[:-1]:        
-            item_data = item_data.setdefault(sub_item, {})
+        for i,sub_item in enumerate(item[:-1]):
+            item_data = item_data.setdefault(group_converters[i](sub_item) if group_converters[i] else sub_item, {})
         item_data['y_axis'] = item[-1]
-    return result    
+    return result 
 
 
-# In[5]:
+# In[13]:
+
+
+def get_data(settings):
+    session = Session()
+    result = _get_incidents(session, settings)
+    x_axis = None
+    if 'xAxis' in settings:
+        x_axis = _get_statistic(session, settings, 'xAxis')
+        result['x_axis'] = settings['xAxis']['display']
+    z_axis = None
+    if 'zAxis' in settings:
+        z_axis = _get_statistic(session, settings, 'zAxis')
+        result['z_axis'] = settings['zAxis']['display']
+    for axis in [x_axis, z_axis]:
+        if not axis:
+            continue
+        axis_label = axis['axis_label']
+        result
+        # This algorithm treats the both incident dictionary and x- or z-axis dictionary as n-ary trees which 
+        # structures are mirrored, so it matches
+        stack = []
+        stack.append((result['data'], axis['data']))
+        while len(stack):
+            inc_data, axis_data = stack.pop()
+            
+            if axis_label in axis_data:
+                inc_data[axis_label] = axis_data[axis_label]
+                if 'y_axis' not in inc_data:
+                    inc_data['y_axis'] = 0
+            else:
+                for k in axis_data:                    
+                    stack.append((inc_data.setdefault(k, {}), axis_data[k]))
+    return result
+
+
+# In[9]:
 
 
 def get_categories():
     return [c[0] for c in Session().query(Category.name).all()]
 
 
-# In[6]:
+# In[10]:
 
 
 def get_statistics():
     return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
 
 
-# In[10]:
+# In[15]:
 
 
 #!jupyter nbconvert --to Script data_retrieval

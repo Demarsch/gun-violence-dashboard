@@ -22,7 +22,6 @@ function createWidget(widgetSettings) {
     let widgetContent = widget.find('.widget-content')[0];
     $.post('data', JSON.stringify(widgetSettings))
         .done(d => {
-            console.log(d);
             $(widgetContent).data('widgetData', d);
             $(widgetContent).data('widgetSettings', widgetSettings);
             widgetRegistry[widgetSettings.chartType.value].render(widgetContent, d);
