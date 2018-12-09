@@ -60,6 +60,12 @@ incident_aggregate_selectors = {
     'killed': func.sum(Incident.n_killed),
     'injured': func.sum(Incident.n_injured)
 }
+# If we group by year then we need to sum values across all states
+# If we group by state then we need to get average value across all years
+stat_aggregate_selectors = {
+    'state': func.round(func.avg(StatisticsValue.value), 1),
+    'year': func.sum(StatisticsValue.value)
+}
 
 
 # In[4]:
@@ -68,7 +74,7 @@ incident_aggregate_selectors = {
 session = Session()
 
 
-# In[6]:
+# In[5]:
 
 
 def _get_statistic(session, settings, axis):
@@ -80,10 +86,12 @@ def _get_statistic(session, settings, axis):
     states = [value['value'] for value in settings['states']]
     # 1. Add group by selectors
     group_selectors = []
+    aggregate_selector = None
     for pivot in pivots:
         group_selectors.append(stat_group_by_selectors[pivot])
+        aggregate_selector = stat_aggregate_selectors[pivot]
     # 2. Create query
-    query = session.query(*group_selectors, func.sum(StatisticsValue.value)).        filter(StatisticsValue.statistics_id == id).        group_by(*group_selectors)
+    query = session.query(*group_selectors, aggregate_selector).        filter(StatisticsValue.statistics_id == id).        group_by(*group_selectors)
     # 3. Filter by year
     if len(years):
         query = query.filter(StatisticsValue.year.in_(years))
@@ -104,7 +112,7 @@ def _get_statistic(session, settings, axis):
     return result
 
 
-# In[7]:
+# In[6]:
 
 
 def _get_incidents(session, settings):
@@ -178,7 +186,7 @@ def _get_incidents(session, settings):
     return result 
 
 
-# In[13]:
+# In[7]:
 
 
 def get_data(settings):
@@ -214,21 +222,21 @@ def get_data(settings):
     return result
 
 
-# In[9]:
+# In[8]:
 
 
 def get_categories():
     return [c[0] for c in Session().query(Category.name).all()]
 
 
-# In[10]:
+# In[9]:
 
 
 def get_statistics():
     return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
 
 
-# In[1]:
+# In[11]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
