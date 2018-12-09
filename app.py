@@ -1,5 +1,6 @@
 import pandas as pd
 import data_retrieval as dr
+from config import is_debug
 
 from flask import Flask, jsonify, render_template, request
 
@@ -15,16 +16,11 @@ def categories():
 
 @app.route('/statistics')
 def statistics():
-    return jsonify([
-        { 'id': 1, 'name': 'Population' },
-        { 'id': 2, 'name': 'Number of Gun Owned' },
-        { 'id': 3, 'name': 'Gun Friendliness Rating' },
-        { 'id': 4, 'name': 'Median Income' }
-    ])
+    return jsonify(dr.get_statistics())
 
 @app.route('/data', methods=['POST'])
 def data():
     return jsonify(dr.get_data(request.get_json(force=True)))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=is_debug)
