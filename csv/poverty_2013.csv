@@ -1,4 +1,4 @@
-﻿State,Poverty
+﻿State,Total
 Alabama,18.5
 Alaska,9.7
 Arizona,17.8
@@ -16,13 +16,13 @@ Illinois,13.6
 Indiana,16.5
 Iowa,13.2
 Kansas,11.4
-Kentucky,22.0
+Kentucky,22
 Louisiana,21.2
 Maine,11.4
 Maryland,10.5
 Massachusetts,12.1
 Michigan,12.7
-Minnesota,11.0
+Minnesota,11
 Mississippi,19.1
 Missouri,17.5
 Montana,10.5
@@ -36,7 +36,7 @@ North Carolina,14.7
 North Dakota,13.2
 Ohio,14.9
 Oklahoma,21.2
-Oregon,14.0
+Oregon,14
 Pennsylvania,11.2
 Rhode Island,9.3
 South Carolina,19.3
