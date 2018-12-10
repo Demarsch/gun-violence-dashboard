@@ -77,8 +77,8 @@ let sunburstWidget = {
         var arc = d3.arc()
             .startAngle(function(d) { return d.x0; })
             .endAngle(function(d) { return d.x1; })
-            .innerRadius(function(d) { return Math.sqrt(d.y0); })
-            .outerRadius(function(d) { return Math.sqrt(d.y1); });  
+            .innerRadius(function(d) { return Math.sqrt(d.y0) - 0.2 * radius; })
+            .outerRadius(function(d) { return Math.sqrt(d.y1) - 0.2 * radius; });  
 
         function initializeBreadcrumbTrail() {
             // Add the svg area.
