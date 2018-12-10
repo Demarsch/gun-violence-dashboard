@@ -82,7 +82,7 @@ def _get_statistic(session, settings, axis):
     axis_label = 'x_axis' if axis == 'xAxis' else 'z_axis'
     id = int(settings[axis]['value'])   
     pivot_by = settings['pivotBy']
-    pivots = [value['value'] for value in pivotBy] if isinstance(pivot_by, list) else [pivot_by['value']]
+    pivots = [value['value'] for value in pivot_by] if isinstance(pivot_by, list) else [pivot_by['value']]
     years = [int(value['value']) for value in settings['years']]
     states = [value['value'] for value in settings['states']]
     # 1. Add group by selectors
@@ -123,7 +123,7 @@ def _get_incidents(session, settings):
     years = [int(value['value']) for value in settings['years']]
     states = [value['value'] for value in settings['states']]    
     pivot_by = settings['pivotBy']
-    pivots = [value['value'] for value in pivotBy] if isinstance(pivot_by, list) else [pivot_by['value']]
+    pivots = [value['value'] for value in pivot_by] if isinstance(pivot_by, list) else [pivot_by['value']]
     y_axis = settings['yAxis']['value']
     
     # Check data type
@@ -178,7 +178,7 @@ def _get_incidents(session, settings):
     data = query.all()
     result = {}
     result['y_axis'] = settings['yAxis']['display']
-    result['pivot'] = [value['display'] for value in pivotBy] if isinstance(pivot_by, list) else [pivot_by['display']]
+    result['pivot'] = [value['display'] for value in pivot_by] if isinstance(pivot_by, list) else [pivot_by['display']]
     result['data'] = {}
     for item in data:
         item_data = result['data']
@@ -238,7 +238,7 @@ def get_statistics():
     return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
 
 
-# In[13]:
+# In[14]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
