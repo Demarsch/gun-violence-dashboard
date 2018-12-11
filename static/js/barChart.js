@@ -3,6 +3,7 @@ let bar_Chart = {
     display: 'Bar Chart',
     render: function (canvas,data) {
         Plotly.purge(canvas);
+        $(canvas).find('.na').remove();
         let traceData = null;
         let layout = null;
         // Single bar mode
@@ -33,9 +34,10 @@ let bar_Chart = {
                         l: 0
                         }    
             };
+            Plotly.newPlot(canvas, traceData, layout, {responsive: true});
         }
         //Grouped bar
-        else {
+        else if (data.pivot.length == 2) {
             let xValue = [];
             let traces = {};
             let l2Labels = new Set();
@@ -74,9 +76,10 @@ let bar_Chart = {
                         l: 0
                         }    
             };
+            Plotly.newPlot(canvas, traceData, layout, {responsive: true});
+        } else {
+            $(canvas).append('<div class="na" title="Can\'t build a bar chart with data pivoted three or more times"></div>');
         }
-
-        Plotly.newPlot(canvas, traceData, layout, {responsive: true});
     }
 };
 widgetRegistry[bar_Chart.name] = bar_Chart;

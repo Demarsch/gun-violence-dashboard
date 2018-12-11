@@ -95,16 +95,16 @@
               <button class="btn-check" data-value="yearMonth">Year+Month</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="victimAge">Victim Age</button>
+              <button class="btn-check" data-value="victimAge" data-deselect="suspectAge,suspectGender">Victim Age</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="victimGender">Victim Gender</button>
+              <button class="btn-check" data-value="victimGender" data-deselect="suspectAge,suspectGender">Victim Gender</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="suspectAge">Suspect Age</button>
+              <button class="btn-check" data-value="suspectAge" data-deselect="victimAge,victimGender">Suspect Age</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="suspectGender">Suspect Gender</button>
+              <button class="btn-check" data-value="suspectGender" data-deselect="victimAge,victimGender">Suspect Gender</button>
             </div>
           </div> 
           <div class="row">
@@ -216,9 +216,6 @@
             </div>
             <div class="col-3">
               <button class="btn-check" data-value="map">Map</button>
-            </div>
-            <div class="col-3">
-              <button class="btn-check" data-value="hist">Histogram</button>
             </div>
             <div class="col-3">
               <button class="btn-check" data-value="bar">Bar Chart</button>
@@ -446,7 +443,7 @@
   <script src="{{ url_for('static', filename='js/pieChart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/barChart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bubbleChart.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/sunburst.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/mapChart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/sunburstChart.js') }}"></script>
 </body>
 </html>

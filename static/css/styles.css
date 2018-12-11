@@ -104,6 +104,7 @@ footer a, footer a:hover, footer a:visited {
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
+    display: flex;
 }
 
 .widget-header {
@@ -153,6 +154,7 @@ footer a, footer a:hover, footer a:visited {
     padding: 0.2rem 0.35rem 0.5rem 0.35rem;
     z-index: 1;
 }
+
 .close-fs-btn img {
     max-width: 100%;
     max-height: 100%;
@@ -174,6 +176,15 @@ footer a, footer a:hover, footer a:visited {
     max-width: 100%;
     max-height: 100%;
     stroke: wheat;
+}
+
+.na {
+    margin: auto;
+    width: 60px;
+    height: 60px;
+    background-image: url(../img/danger.svg);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .modal-backdrop
