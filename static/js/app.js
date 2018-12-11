@@ -38,9 +38,11 @@ function createWidget(widgetSettings) {
             <div class="w-100 h-100 m-3"></div>
         </div>`)[0];
         $('body').append(fullscreen);
+        $('body').css('overflow', 'hidden');
         widgetRegistry[widgetSettings.chartType.value].render($('.full-screen-widget>div')[0], data);
         $('.close-fs-btn').click(() => {
             $('.full-screen-widget').remove();
+            $('body').css('overflow', '');
         });
     });
     $('#addFirstWidget').hide();
@@ -51,7 +53,8 @@ function createWidget(widgetSettings) {
         .done(d => {
             limitData(d,
                 widgetSettings.top ? +widgetSettings.top.value : 0,
-                widgetSettings.bottom ? +widgetSettings.bottom.value : 0);
+                widgetSettings.bottom ? +widgetSettings.bottom.value : 0,
+                widgetSettings.topBottomAll);
             $(widgetContent).data('widgetData', d);
             $(widgetContent).data('widgetSettings', widgetSettings);
             widgetRegistry[widgetSettings.chartType.value].render(widgetContent, d);
@@ -65,7 +68,7 @@ $('.grid-stack').on('gsresizestop', function(event, elem) {
     widgetRegistry[settings.chartType.value].render($(elem).find('.widget-content')[0], data);
 });
 
-function limitData(data, top, bottom) {
+function limitData(data, top, bottom, allLevels) {
     top = top || 0;
     bottom = bottom || 0;
     // 1. Calculate the cumulative value on every level of the hierarchy (e.g. CA-2014 - 100 and CA-2015 - 200 gives CA-300)
@@ -76,7 +79,11 @@ function limitData(data, top, bottom) {
         //Item is at the bottom of the hierarchy - stops everything
         if (item.hasOwnProperty('y_axis')) {
             item._cumulative = item.y_axis;
-            item._parent._cumulative = (item._parent._cumulative || 0) + item._cumulative;
+            let parent = item._parent;
+            while (parent) {
+                parent._cumulative = (parent._cumulative || 0) + item._cumulative;
+                parent = parent._parent;
+            }
         }
         //Item still has children - loop through them
         else {
@@ -101,8 +108,9 @@ function limitData(data, top, bottom) {
         let localBot = top || bottom ? bottom : subItems.length;
         for (let i = 0, l = subItems.length; i < l; i++) {
             if (i < localBot || i >= l - localTop) {
-                //Uncommenct to do it on all levels of the hierarchy
-                //queue.push(subItems[i][1]);
+                if (allLevels) {
+                    queue.push(subItems[i][1]);
+                }
                 continue;
             }
             delete item[subItems[i][0]];

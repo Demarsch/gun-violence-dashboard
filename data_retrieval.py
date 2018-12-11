@@ -19,23 +19,26 @@ Session = sessionmaker(bind=engine)
 
 
 participant_pivots = { 'victimAge', 'victimGender', 'suspectAge', 'suspectGender' }
-incident_pivots = { 'state', 'year', 'yearMonth' }
+incident_pivots = { 'state', 'year', 'month' }
+month_names = { '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun',
+                '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }
 
 stat_group_by_selectors = {
     'state': StatisticsValue.state,
     'year': StatisticsValue.year
 }
-
+# For some reason retrieving month name as strftime('%b') is not working
 group_by_converters = {
     'year': lambda x: int(x),
     'victimGender': lambda x: 'Male' if x else 'Female',
-    'suspectGender': lambda x: 'Male' if x else 'Female'
+    'suspectGender': lambda x: 'Male' if x else 'Female',
+    'month': lambda x: month_names[x]
 }
 
 group_by_selectors = {
     'state': Incident.state,
     'year': func.strftime('%Y', Incident.date),
-    'yearMonth': func.strftime('%Y-%m', Incident.date),
+    'month': func.strftime('%m', Incident.date),
     'victimAge': Participant.age,
     'victimGender': Participant.is_male,
     'suspectAge': Participant.age,
@@ -173,7 +176,6 @@ def _get_incidents(session, settings):
         query = query.filter(Incident.state.in_(states))
     # 10. Add group by
     query = query.group_by(*group_selectors)
-    
     # Executing query and converting it to proper format
     data = query.all()
     result = {}
@@ -238,7 +240,7 @@ def get_statistics():
     return [ { 'id':c[0], 'name':c[1] } for c in Session().query(Statistics.id, Statistics.name).all()]
 
 
-# In[14]:
+# In[5]:
 
 
 #!jupyter nbconvert --to Script data_retrieval
