@@ -17,6 +17,7 @@ function createWidget(widgetSettings) {
         <div class="grid-stack-item-content">
             <div class="widget-header">    
                 <h2>${widgetSettings.title}</h2>
+                <a class="mx-widget-btn" title="Maximize" href="#"><img src="static/img/maximize.svg"></a>
                 <a class="rm-widget-btn" title="Delete Widget" href="#"><img src="static/img/close.svg"></a>
             </div>
             <div class="widget-content"></div>
@@ -28,6 +29,19 @@ function createWidget(widgetSettings) {
         if (!widgetCount) {
             $('#addFirstWidget').fadeIn();
         }
+    });
+    widget.find('.mx-widget-btn').click(() => {
+        let data = widget.find('.widget-content').data('widgetData');
+        let fullscreen = $(`
+        <div class="full-screen-widget">
+            <a class="close-fs-btn" title="Exit Fullscreen" href="#"><img src="static/img/close-fire.svg"></a>
+            <div class="w-100 h-100 m-3"></div>
+        </div>`)[0];
+        $('body').append(fullscreen);
+        widgetRegistry[widgetSettings.chartType.value].render($('.full-screen-widget>div')[0], data);
+        $('.close-fs-btn').click(() => {
+            $('.full-screen-widget').remove();
+        });
     });
     $('#addFirstWidget').hide();
     grid.addWidget(widget, null, null, 3, 3, true);
