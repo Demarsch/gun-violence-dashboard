@@ -1,6 +1,6 @@
 # Gun Violence Map
 
-An interactive dashboard that contains visualization of different statistics related to the gun violence in the US and allows to calculate and display custom statistics
+An interactive dashboard that contains visualization of different statistics related to the gun violence in the US and allows to view custom breakdown of the incidents, number of kills and number of injured as well as to visualize a correlation between incidents and some other factors . Live version of the application can be found [here](https://gvdash.herokuapp.com/)
 
 ## Team Members
 

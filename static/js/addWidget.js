@@ -133,6 +133,19 @@ $('.modal div[data-group] button:not(.inactive)')
         }
     });
 
+//Deselect those options that shouldn't be active at the same time
+$('.modal [data-deselect]').click(e => {
+    let self = $(e.target);
+    let isActive = self.hasClass('active');
+    if (isActive) {
+        let deselectValues = self.attr('data-deselect').split(',');
+        let parent = self.parents('[data-group]');
+        for (let deselectValue of deselectValues) {
+            parent.find(`[data-value="${deselectValue}"]`).toggleClass('active', false);
+        }
+    }
+})
+
 //Do not close categories drop-down menus when category is selected
 $('.modal .dropdown-menu[data-keepopen]').click(e => e.stopPropagation());
 

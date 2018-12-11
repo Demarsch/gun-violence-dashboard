@@ -18,6 +18,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sunburst.css') }}">
 </head>
 <body>
   <nav class="navbar">
@@ -71,13 +72,13 @@
                 <p class="text-center mb-2">What do you want to break down?</p>
               </div>         
             <div class="col-4">
-              <button class="btn-check active" data-value="incidents"># Incidents</button>
+              <button class="btn-check active" data-value="incidents">Incidents</button>
             </div>
             <div class="col-4">
-              <button class="btn-check" data-value="killed"># Killed</button>
+              <button class="btn-check" data-value="killed">People Killed</button>
             </div>
             <div class="col-4">
-              <button class="btn-check" data-value="injured"># Injured</button>
+              <button class="btn-check" data-value="injured">People Injured</button>
             </div>
           </div>
           <div class="row" data-group="pivotBy" data-multiselect data-keepchecked>
@@ -91,26 +92,26 @@
               <button class="btn-check" data-value="year">Year</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="yearMonth">Year+Month</button>
+              <button class="btn-check" data-value="month">Month</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="victimAge">Victim Age</button>
+              <button class="btn-check" data-value="victimAge" data-deselect="suspectAge,suspectGender">Victim Age</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="victimGender">Victim Gender</button>
+              <button class="btn-check" data-value="victimGender" data-deselect="suspectAge,suspectGender">Victim Gender</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="suspectAge">Suspect Age</button>
+              <button class="btn-check" data-value="suspectAge" data-deselect="victimAge,victimGender">Suspect Age</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="suspectGender">Suspect Gender</button>
+              <button class="btn-check" data-value="suspectGender" data-deselect="victimAge,victimGender">Suspect Gender</button>
             </div>
           </div> 
           <div class="row">
             <div class="col-12">
               <p class="text-center my-2">How do you want to filter it?</p>
             </div>
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Belongs to:
             </div>
             <div class="col-9">
@@ -122,7 +123,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Doesn't belong to:
             </div>
             <div class="col-9">
@@ -136,7 +137,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Years
             </div>
             <div class="col-9">
@@ -150,7 +151,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-3 pt-1">
               States
             </div>
             <div class="col-9">
@@ -161,6 +162,54 @@
                 <div class="dropdown-menu" data-type="states" data-group="states" data-keepopen data-multiselect aria-labelledby="breakdownStatesDdButton">
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-0">Do you really need all the data?</p>
+            </div>
+            <div class="col-6 py-0 pl-0 pr-2">
+              <div class="row" data-group="top">
+                <div class="col-12">
+                    <p class="text-center mb-2">Top</p>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="1">1</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="3">3</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="5">5</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="10">10</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 py-0 pl-0 pr-2">
+              <div class="row" data-group="bottom">
+                <div class="col-12">
+                  <p class="text-center mb-2">Bottom</p>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="1">1</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="3">3</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="5">5</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="10">10</button>
+                </div>
+              </div>
+            </div>            
+          </div>
+          <div class="row" data-group="topBottomAll">
+            <div class="col-4 offset-4">
+              <button class="btn-check" data-value="Yes">Apply to All Levels</button>
             </div>
           </div>
           <div class="row" data-group="chartType" data-keepchecked>
@@ -174,10 +223,10 @@
               <button class="btn-check" data-value="map">Map</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="hist">Histogram</button>
+              <button class="btn-check" data-value="bar">Bar Chart</button>
             </div>
             <div class="col-3">
-              <button class="btn-check" data-value="bar">Bar Chart</button>
+              <button class="btn-check" data-value="sunburst">Sunburst</button>
             </div>
           </div>
           <div class="row">
@@ -213,20 +262,20 @@
                 <p class="text-center mb-2">What do you correlate?</p>
               </div>         
             <div class="col-4">
-              <button class="btn-check active" data-value="incidents"># Incidents</button>
+              <button class="btn-check active" data-value="incidents">Incidents</button>
             </div>
             <div class="col-4">
-              <button class="btn-check" data-value="killed"># Killed</button>
+              <button class="btn-check" data-value="killed">People Killed</button>
             </div>
             <div class="col-4">
-              <button class="btn-check" data-value="injured"># Injured</button>
+              <button class="btn-check" data-value="injured">People Injured</button>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <p class="text-center my-2">How do you want to filter it?</p>
             </div>
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Belongs to:
             </div>
             <div class="col-9">
@@ -238,7 +287,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Doesn't belong to:
             </div>
             <div class="col-9">
@@ -252,7 +301,7 @@
             </div>
           </div>          
           <div class="row">
-            <div class="col-3">
+            <div class="col-3 pt-1">
               Years
             </div>
             <div class="col-9">
@@ -266,7 +315,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3">
+            <div class="col-3 pt-1">
               States
             </div>
             <div class="col-9">
@@ -283,7 +332,7 @@
               <div class="col-12">
                 <p class="text-center my-2">What do you want to correlate it with?</p>
               </div>           
-              <div class="col-12" data-group="xAxis">
+              <div class="col-12 p-0" data-group="xAxis">
                   <div class="dropdown">
                     <button class="btn-check dropdown-toggle inactive" type="button" id="correlationXStatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       - Select Statistics -
@@ -292,7 +341,7 @@
                     </div>
                   </div>
               </div>          
-              <div class="col-12" data-group="zAxis">
+              <div class="col-12 p-0" data-group="zAxis">
                   <div class="dropdown">
                     <button class="btn-check dropdown-toggle inactive" type="button" id="correlationZStatDdButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       - Select Statistics -
@@ -313,6 +362,49 @@
               <button class="btn-check" data-value="year">Year</button>
             </div>
           </div> 
+          <div class="row">
+            <div class="col-12">
+              <p class="text-center my-0">Do you really need all the data?</p>
+            </div>
+            <div class="col-6 py-0 pl-0 pr-2">
+              <div class="row" data-group="top">
+                <div class="col-12">
+                    <p class="text-center mb-2">Top</p>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="1">1</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="3">3</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="5">5</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="10">10</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 py-0 pl-0 pr-2">
+              <div class="row" data-group="bottom">
+                <div class="col-12">
+                  <p class="text-center mb-2">Bottom</p>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="1">1</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="3">3</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="5">5</button>
+                </div>
+                <div class="col-3">
+                  <button class="btn-check" data-value="10">10</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row" data-group="chartType" data-keepchecked>
             <div class="col-12">
               <p class="text-center my-2">How do you want to display it?</p>
@@ -339,7 +431,7 @@
     </div>
   </div>
   <footer>
-    <p>2018 Andrei Chaplygin, Edgar Sanchez, Craig Taylor, Nathan Roberts. Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a><a href="https://github.com/Demarsch/gun-violence-dashboard" target="_blank" aria-label="GitHub" class="pl-3"><svg class="icon" viewBox="0 0 512 499.36" focusable="false"><title>GitHub</title><path d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" fill="currentColor" fill-rule="evenodd"></path></svg>
+    <p>2018 Andrei Chaplygin, Edgar Sanchez, Craig Taylor, Nathan Roberts. Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>. Data provided by <a href="https://gunviolencearchive.org" target="_blank">gunviolencearchive.org</a><a href="https://github.com/Demarsch/gun-violence-dashboard" target="_blank" aria-label="GitHub" class="pl-3"><img src="{{ url_for('static', filename='img/github.svg') }}">
     </a></p>
   </footer>
   <script type="text/javascript">
@@ -356,6 +448,7 @@
   <script src="{{ url_for('static', filename='js/pieChart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/barChart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/bubbleChart.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/mapChart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/sunburstChart.js') }}"></script>
 </body>
 </html>
