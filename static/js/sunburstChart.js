@@ -23,7 +23,7 @@ let sunburstWidget = {
 
         // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
         var b = {
-            w: 75, h: 30, s: 3, t: 10
+            w: 110, h: 30, s: 3, t: 10
         };
 
         // Building hierarchical data
@@ -129,7 +129,7 @@ let sunburstWidget = {
                 .attr("y", b.h / 2)
                 .attr("dy", "0.35em")
                 .attr("text-anchor", "middle")
-                .text(function(d) { return d.data.name; });
+                .text(function(d) { return `${data.pivot[d.depth - 1].split(' ').slice(-1)[0]}: ${d.data.name}`; });
 
             // Merge enter and update selections; set position for all nodes.
             entering.merge(trail).attr("transform", function(d, i) {
